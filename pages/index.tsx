@@ -34,7 +34,7 @@ const Home: NextPage<IdOnlyProps> = ({ id }) => {
             }
 
             const isDrawerOpen = localStorage.getItem("isOpen");
-            if (isDrawerOpen !== "undefined") {
+            if (isDrawerOpen !== "undefined" || isDrawerOpen !== null) {
                 setIsOpen(JSON.parse(isDrawerOpen!));
             }
         }
