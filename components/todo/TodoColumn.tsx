@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDrop } from "react-dnd";
+import { toast } from "react-toastify";
 import { ProjectType, TodoType } from "../../shared/sharedtypes";
 import customAxios from "../../utils/axios";
 import { useProjectStore } from "../../zustand/projectstore";
@@ -60,6 +61,9 @@ const TodoColumn = ({ title }: TodoColumnProps) => {
             return;
         }
         todoToMove.status = title;
+        if (todoToMove.status === "Done") {
+            toast.success("🎉Congrats! You have completed a task!🎉");
+        }
         mutate(todoToMove);
     };
 
