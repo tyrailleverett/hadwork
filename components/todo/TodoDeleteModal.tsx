@@ -1,29 +1,40 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { ProjectType } from "../../shared/sharedtypes";
+import { ProjectType, TodoType } from "../../shared/sharedtypes";
 import customAxios from "../../utils/axios";
 import { useProjectStore } from "../../zustand/projectstore";
 import { TodoDeleteModalProps } from "./todotypes";
 
-const TodoDeleteModal = ({ handleOnCancel, todoId }: TodoDeleteModalProps) => {
+const TodoDeleteModal = ({ handleOnCancel, todo }: TodoDeleteModalProps) => {
     const { activeProject, setActiveProject } = useProjectStore();
     const queryClient = useQueryClient();
 
     const handleOnDelete = () => {
-        mutate(todoId!);
+        mutate(todo);
     };
 
-    const deleteTodo = (id: number) => {
-        return customAxios.delete("/todo/deletetodo", { data: { id } });
+    const deleteTodo = (todo: TodoType) => {
+        return customAxios.delete("/todo/deletetodo", { data: { todo } });
     };
 
     const { mutate } = useMutation(deleteTodo, {
+        onMutate: (deletedTodo) => {
+            const currentProject = queryClient
+                .getQueryData<ProjectType[]>(["projects"])
+                ?.filter((project) => project.id === activeProject?.id)[0];
+            if (currentProject) {
+                const updatedTodos = currentProject?.todo.filter(
+                    (todo) => todo.id !== deletedTodo.id
+                );
+                currentProject.todo = updatedTodos!;
+                setActiveProject(currentProject!);
+            }
+        },
         onError: (error) => {
             toast.error(error as string);
         },
         onSettled: async () => {
             await queryClient.invalidateQueries(["projects"]);
-
             const currentActiveProject = queryClient
                 .getQueryData<ProjectType[]>(["projects"])
                 ?.find(
@@ -33,7 +44,6 @@ const TodoDeleteModal = ({ handleOnCancel, todoId }: TodoDeleteModalProps) => {
             if (currentActiveProject) {
                 setActiveProject(currentActiveProject);
             }
-            toast.success("Todo deleted 🎉");
         }
     });
 

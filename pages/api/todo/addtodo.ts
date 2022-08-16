@@ -1,6 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth/next";
+import { ZodError } from "zod";
 import prisma from "../../../db/db";
 import { addTodoSchema } from "../../../shared/todozodchema";
 import { authOptions } from "../auth/[...nextauth]";
@@ -28,6 +29,10 @@ const addTodo = async (req: NextApiRequest, res: NextApiResponse) => {
                         error: "Todo already exists"
                     });
                 }
+            } else if (error instanceof ZodError) {
+                const zError = error.flatten().fieldErrors.name?.pop();
+
+                res.status(400).json({ error: zError });
             } else {
                 res.status(400).json(error);
             }

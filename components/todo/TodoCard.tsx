@@ -76,10 +76,7 @@ const TodoCard = ({ todo }: TodoCardProps) => {
                     />
                 )}
             </div>
-            <TodoDeleteModal
-                todoId={todo.id!}
-                handleOnCancel={handleOnCancel}
-            />
+            <TodoDeleteModal todo={todo} handleOnCancel={handleOnCancel} />
         </>
     );
 };

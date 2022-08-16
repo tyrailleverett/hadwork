@@ -24,7 +24,7 @@ const TodoColumnTitle = ({ title }: TodoColumnTitleProps) => {
         }
     }, []);
     return (
-        <div className="flex items-center pb-4 mt-2 text-xl font-bold shadow">
+        <div className="flex items-center pt-2 pb-4 text-xl font-bold shadow">
             <div className="flex items-center justify-center flex-1">
                 <p>{titleIcon}</p>
                 <p className="ml-2">{title}</p>

@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTheme } from "next-themes";
 import { useForm } from "react-hook-form";
 import { FaPlusSquare, FaSave } from "react-icons/fa";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { FormDataType } from "../../shared/sharedtypes";
 import customAxios from "../../utils/axios";
@@ -8,6 +10,8 @@ import { useProjectStore } from "../../zustand/projectstore";
 
 const ProjectAddButton = () => {
     const { setActiveProject } = useProjectStore();
+    const { theme } = useTheme();
+
     const queryClient = useQueryClient();
     const {
         handleSubmit,
@@ -22,7 +26,7 @@ const ProjectAddButton = () => {
     };
 
     const onHandleSubmit = (formData: FormDataType) => {
-        mutate(formData.name);
+        addMutation.mutate(formData.name);
 
         resetField("name");
         if (document.activeElement instanceof HTMLElement) {
@@ -35,23 +39,32 @@ const ProjectAddButton = () => {
         setFocus("name");
     };
 
-    const { mutate } = useMutation(addProject, {
+    const addMutation = useMutation(addProject, {
         onError: (error) => {
             toast.error(error as string);
         },
-        onSettled: (addedProject) => {
-            queryClient.invalidateQueries(["projects"]);
-            setActiveProject(addedProject?.data);
+        onSuccess: (addedProject) => {
             toast.success("Project Added 🎉");
+            setActiveProject(addedProject?.data);
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries(["projects"]);
         }
     });
 
     return (
         <>
             <div className="mr-4 dropdown dropdown-left lg:dropdown-right">
-                <label tabIndex={0} className="hover:cursor-pointer">
-                    <FaPlusSquare onClick={onStartEditing} />
-                </label>
+                {addMutation.isLoading ? (
+                    <ClipLoader
+                        size={20}
+                        color={`${theme === "dark" ? "#a6adba" : "#1f2937"}`}
+                    />
+                ) : (
+                    <label tabIndex={0} className="hover:cursor-pointer">
+                        <FaPlusSquare onClick={onStartEditing} />
+                    </label>
+                )}
 
                 <ul
                     tabIndex={0}

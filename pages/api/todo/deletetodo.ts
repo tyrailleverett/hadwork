@@ -11,7 +11,8 @@ const deleteTodo = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     if (req.method === "DELETE") {
         try {
-            const { id } = deleteTodoSchema.parse(req.body);
+            const { id } = deleteTodoSchema.parse(req.body.todo);
+
             const deletedTodo = await prisma.todo.delete({
                 where: { id }
             });

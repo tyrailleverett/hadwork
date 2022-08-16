@@ -1,6 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth/next";
+import { ZodError } from "zod";
 import prisma from "../../../db/db";
 import { addProjectSchema } from "../../../shared/projectzodschema";
 import { authOptions } from "../auth/[...nextauth]";
@@ -27,6 +28,10 @@ const addProject = async (req: NextApiRequest, res: NextApiResponse) => {
                         error: "Project already exists"
                     });
                 }
+            } else if (error instanceof ZodError) {
+                const zError = error.flatten().fieldErrors.name?.pop();
+
+                res.status(400).json({ error: zError });
             } else {
                 res.status(400).json(error);
             }

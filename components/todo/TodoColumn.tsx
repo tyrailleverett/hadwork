@@ -20,6 +20,17 @@ const TodoColumn = ({ title }: TodoColumnProps) => {
     };
 
     const { mutate } = useMutation(updateTodo, {
+        onMutate: (movedTodo) => {
+            const currentProject = queryClient
+                .getQueryData<ProjectType[]>(["projects"])
+                ?.filter((project) => project.id === activeProject?.id)[0];
+            currentProject?.todo.map((todo) => {
+                if (todo.id === movedTodo.id) {
+                    todo.status = movedTodo.status;
+                }
+            });
+            setActiveProject(currentProject!);
+        },
         onSettled: async () => {
             await queryClient.invalidateQueries(["projects"]);
             const currentProject = queryClient

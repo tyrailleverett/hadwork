@@ -1,4 +1,4 @@
-import { BsThreeDots } from "react-icons/bs";
+import { BsFillTrashFill, BsPencilFill, BsThreeDots } from "react-icons/bs";
 import { DropDownMenuProps } from "../../shared/sharedtypes";
 
 const ProjectDropDown = ({ setIsEditing, setFocus }: DropDownMenuProps) => {
@@ -15,13 +15,17 @@ const ProjectDropDown = ({ setIsEditing, setFocus }: DropDownMenuProps) => {
             <ul
                 tabIndex={0}
                 className="border rounded-lg shadow bg-base-100 dropdown-content menu w-fit">
-                <li>
-                    <p onClick={handleOnEdit}>Edit</p>
+                <li className="flex items-center">
+                    <p className="p-3" onClick={handleOnEdit}>
+                        <BsPencilFill /> Edit
+                    </p>
                 </li>
-                <li>
+                <div className="p-0 m-0 divider"></div>
+                <li className="flex items-center">
                     <label
                         htmlFor="projectDeleteModal"
-                        className="modal-button">
+                        className="p-3 modal-button">
+                        <BsFillTrashFill />
                         Delete
                     </label>
                 </li>

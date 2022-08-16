@@ -19,7 +19,7 @@ const DrawerHeader = () => {
                 </div>
                 <ul
                     tabIndex={0}
-                    className="p-2 border shadow dropdown-content menu bg-base-100 rounded-box w-52">
+                    className="w-40 p-2 border shadow dropdown-content menu bg-base-100 rounded-box">
                     <li onClick={() => router.push("/user/userprofile")}>
                         <p className="p-2">
                             <FaCog />

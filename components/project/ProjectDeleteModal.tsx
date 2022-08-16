@@ -21,8 +21,7 @@ const ProjectDeleteModal = ({ handleOnCancel }: ProjectDeleteModalProps) => {
         onError: (error) => {
             toast.error(error as string);
         },
-        onSettled: (deletedProject) => {
-            queryClient.invalidateQueries(["projects"]);
+        onSuccess: (deletedProject) => {
             const listOfCurrentProjects = queryClient
                 .getQueryData<ProjectType[]>(["projects"])
                 ?.filter((project) => project.id !== deletedProject?.data.id);
@@ -34,6 +33,9 @@ const ProjectDeleteModal = ({ handleOnCancel }: ProjectDeleteModalProps) => {
             }
 
             toast.success("Project deleted 🎉");
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries(["projects"]);
         }
     });
 

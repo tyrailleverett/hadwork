@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTheme } from "next-themes";
 import { useForm } from "react-hook-form";
 import { FaPlusSquare, FaSave } from "react-icons/fa";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { FormDataType, ProjectType } from "../../shared/sharedtypes";
 import customAxios from "../../utils/axios";
@@ -9,6 +11,7 @@ import { AddTodoType } from "./todotypes";
 
 const TodoAddButton = () => {
     const { setActiveProject, activeProject } = useProjectStore();
+    const { theme } = useTheme();
     const queryClient = useQueryClient();
     const {
         handleSubmit,
@@ -23,7 +26,7 @@ const TodoAddButton = () => {
     };
 
     const onHandleSubmit = (newName: FormDataType) => {
-        addTodoMutation.mutate({
+        addMutation.mutate({
             name: newName.name,
             projectId: activeProject!.id
         });
@@ -39,11 +42,12 @@ const TodoAddButton = () => {
         setFocus("name");
     };
 
-    const addTodoMutation = useMutation(addTodo, {
+    const addMutation = useMutation(addTodo, {
+        onMutate: () => {},
         onError: (error) => {
             toast.error(error as string);
         },
-        onSettled: async () => {
+        onSuccess: async () => {
             await queryClient.invalidateQueries(["projects"]);
             const currentActiveProject = queryClient
                 .getQueryData<ProjectType[]>(["projects"])
@@ -54,7 +58,9 @@ const TodoAddButton = () => {
             if (currentActiveProject) {
                 setActiveProject(currentActiveProject);
             }
-            toast.success("Todo Added 🎉");
+        },
+        onSettled: async () => {
+            await queryClient.invalidateQueries(["projects"]);
         }
     });
 
@@ -69,12 +75,21 @@ const TodoAddButton = () => {
                             ? "hover:cursor-not-allowed tooltip tooltip-error"
                             : "hover:cursor-pointer"
                     }`}>
-                    <FaPlusSquare
-                        className={`${
-                            !activeProject ? "opacity-20" : "opacity-100"
-                        }`}
-                        onClick={onStartEditing}
-                    />
+                    {addMutation.isLoading ? (
+                        <ClipLoader
+                            size={20}
+                            color={`${
+                                theme === "dark" ? "#a6adba" : "#1f2937"
+                            }`}
+                        />
+                    ) : (
+                        <FaPlusSquare
+                            className={`${
+                                !activeProject ? "opacity-20" : "opacity-100"
+                            }`}
+                            onClick={onStartEditing}
+                        />
+                    )}
                 </label>
 
                 <ul

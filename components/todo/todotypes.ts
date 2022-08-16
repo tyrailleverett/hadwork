@@ -4,7 +4,7 @@ import { FormDataType, TodoType } from "../../shared/sharedtypes";
 
 export interface TodoDeleteModalProps {
     handleOnCancel: () => void;
-    todoId: number;
+    todo: TodoType;
 }
 
 export interface TodoCardProps {

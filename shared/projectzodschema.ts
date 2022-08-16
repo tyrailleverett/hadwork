@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 export const addProjectSchema = z.object({
-    name: z.string().min(3, "Please enter a valid username").trim()
+    name: z
+        .string()
+        .min(3, "Project name must be at least chracters long.")
+        .trim()
 });
 
 export const updateProjectSchema = z.object({

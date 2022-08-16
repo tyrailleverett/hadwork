@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const addTodoSchema = z.object({
-    name: z.string().min(3, "Please enter a valid todo").trim(),
+    name: z.string().min(3, "Todo must be 3 at least characters long").trim(),
     projectId: z.number().positive()
 });
 
@@ -14,5 +14,9 @@ export const updateTodoSchema = z.object({
 });
 
 export const deleteTodoSchema = z.object({
-    id: z.number().positive()
+    id: z.number().positive(),
+    name: z.string().min(3, "Please provide a valid project name").trim(),
+    status: z.string().min(1, "Please provide a status").trim(),
+    project_id: z.number().positive(),
+    created_at: z.string().trim()
 });

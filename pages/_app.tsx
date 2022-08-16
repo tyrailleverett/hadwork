@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
+import NextNProgress from "nextjs-progressbar";
 import { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -29,6 +30,7 @@ const MyApp = ({
                     <Hydrate state={pageProps.dehydratedState}>
                         <Layout>
                             <DndProvider backend={HTML5Backend}>
+                                <NextNProgress />
                                 <Component {...pageProps} />
                             </DndProvider>
                         </Layout>

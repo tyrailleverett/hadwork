@@ -47,15 +47,14 @@ const ProjectCard = ({ name }: ProjectCardProps) => {
                 </div>
             )}
             <div
-                suppressHydrationWarning={true}
                 onClick={setProject}
-                className={`flex items-center my-3 pr-3 rounded-md bg-base-100 hover:cursor-pointer ${
+                className={`flex my-3 items-center rounded-md bg-base-100 hover:cursor-pointer ${
                     activeProject?.name === name ? "ring-4 ring-accent" : ""
                 }`}>
                 <input
                     type="text"
                     {...register("name", { required: "Task is required" })}
-                    className={`flex-1 py-8 font-semibold input focus:outline-none ${
+                    className={`py-8 font-semibold input focus:outline-none ${
                         isEditing ? "cursor-text" : "cursor-pointer"
                     }`}
                     readOnly={!isEditing}

@@ -28,6 +28,9 @@ const TodoEditingIcons = ({
     };
 
     const { mutate } = useMutation(updateTodo, {
+        onMutate: () => {
+            setIsEditing(false);
+        },
         onError: (error) => {
             toast.error(error as string);
         },
@@ -42,18 +45,17 @@ const TodoEditingIcons = ({
             if (currentActiveProject) {
                 setActiveProject(currentActiveProject);
             }
-            setIsEditing(false);
         }
     });
     return (
         <div className="flex gap-2">
             <BsX
-                className="text-xl text-red-500 hover:cursor-pointer"
+                className="text-xl text-red-500 hover:scale-110 hover:cursor-pointer"
                 onClick={handleOnCancel}
             />
 
             <BsCheck
-                className="text-xl text-green-500 hover:cursor-pointer"
+                className="text-xl text-green-500 hover:scale-110 hover:cursor-pointer"
                 onClick={handleSubmit((formData) => handleOnSubmit(formData))}
             />
         </div>
