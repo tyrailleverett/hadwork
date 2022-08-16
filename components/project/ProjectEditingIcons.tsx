@@ -49,7 +49,7 @@ const ProjectEditingIcons = ({
     });
 
     return (
-        <div className="flex gap-x-2">
+        <div className="flex min-w-0 gap-x-2">
             <BsX
                 className="text-xl text-red-500 hover:scale-110 hover:cursor-pointer"
                 onClick={handleOnCancel}

@@ -15,16 +15,18 @@ const ProjectDropDown = ({ setIsEditing, setFocus }: DropDownMenuProps) => {
             <ul
                 tabIndex={0}
                 className="border rounded-lg shadow bg-base-100 dropdown-content menu w-fit">
-                <li className="flex items-center">
-                    <p className="p-3" onClick={handleOnEdit}>
+                <li>
+                    <p
+                        className="flex items-center w-full p-3 justify-evenly"
+                        onClick={handleOnEdit}>
                         <BsPencilFill /> Edit
                     </p>
                 </li>
                 <div className="p-0 m-0 divider"></div>
-                <li className="flex items-center">
+                <li>
                     <label
                         htmlFor="projectDeleteModal"
-                        className="p-3 modal-button">
+                        className="flex items-center p-3 justify-evenly modal-button">
                         <BsFillTrashFill />
                         Delete
                     </label>
