@@ -40,8 +40,8 @@ const ProjectAddButton = () => {
     };
 
     const addMutation = useMutation(addProject, {
-        onError: (error) => {
-            toast.error(error as string);
+        onError: (error: string) => {
+            toast.error(error);
         },
         onSuccess: (addedProject) => {
             toast.success("Project Added 🎉");

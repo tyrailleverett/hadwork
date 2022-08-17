@@ -31,8 +31,8 @@ const TodoEditingIcons = ({
         onMutate: () => {
             setIsEditing(false);
         },
-        onError: (error) => {
-            toast.error(error as string);
+        onError: (error: string) => {
+            toast.error(error);
         },
         onSettled: async () => {
             await queryClient.invalidateQueries(["projects"]);

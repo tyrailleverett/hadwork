@@ -30,8 +30,8 @@ const TodoDeleteModal = ({ handleOnCancel, todo }: TodoDeleteModalProps) => {
                 setActiveProject(currentProject!);
             }
         },
-        onError: (error) => {
-            toast.error(error as string);
+        onError: (error: string) => {
+            toast.error(error);
         },
         onSettled: async () => {
             await queryClient.invalidateQueries(["projects"]);

@@ -43,9 +43,8 @@ const TodoAddButton = () => {
     };
 
     const addMutation = useMutation(addTodo, {
-        onMutate: () => {},
-        onError: (error) => {
-            toast.error(error as string);
+        onError: (error: string) => {
+            toast.error(error);
         },
         onSuccess: async () => {
             await queryClient.invalidateQueries(["projects"]);

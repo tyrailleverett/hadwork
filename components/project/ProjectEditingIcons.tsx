@@ -37,8 +37,8 @@ const ProjectEditingIcons = ({
         onMutate: () => {
             setIsEditing(false);
         },
-        onError: (error) => {
-            toast.error(error as string);
+        onError: (error: string) => {
+            toast.error(error);
         },
         onSuccess: (updatedProject) => {
             setActiveProject(updatedProject?.data);

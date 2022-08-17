@@ -18,8 +18,8 @@ const ProjectDeleteModal = ({ handleOnCancel }: ProjectDeleteModalProps) => {
     };
 
     const { mutate } = useMutation(deleteProject, {
-        onError: (error) => {
-            toast.error(error as string);
+        onError: (error: string) => {
+            toast.error(error);
         },
         onSuccess: (deletedProject) => {
             const listOfCurrentProjects = queryClient
